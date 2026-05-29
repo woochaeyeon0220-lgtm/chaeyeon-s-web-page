@@ -1,463 +1,322 @@
-<!-- 파일명: index.html -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>채연's web page</title>
+<title>채연's Web Page</title>
 
-  <style>
+<style>
+:root{
+    --green1:#b7ec88;
+    --green2:#90d55a;
+    --green3:#2f6d24;
+    --bg:#f7fff4;
+}
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:'Pretendard','Noto Sans KR',sans-serif;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"Pretendard","Malgun Gothic",sans-serif;
+    background:var(--bg);
+    color:#333;
+    line-height:1.6;
+}
+
+header{
+    background:linear-gradient(135deg,#b7ec88,#e4ffd1);
+    padding:80px 20px 60px;
+    position:relative;
+    text-align:center;
+}
+
+.profile-card{
+    position:absolute;
+    top:20px;
+    right:30px;
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    background:white;
+    padding:10px 15px;
+
+    border-radius:50px;
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
+}
+
+.profile-card img{
+    width:75px;
+    height:75px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid var(--green1);
+}
+
+.profile-info h3{
+    color:var(--green3);
+    font-size:1.1rem;
+}
+
+.profile-info p{
+    font-size:.85rem;
+    color:#666;
+}
+
+header h1{
+    font-size:3rem;
+    color:#1f5f18;
+    margin-bottom:10px;
+}
+
+header p{
+    color:#356d2d;
+    font-size:1.1rem;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:30px 20px;
+}
+
+.section{
+    background:white;
+    padding:25px;
+    margin-bottom:25px;
+    border-radius:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.section h2{
+    color:var(--green3);
+    margin-bottom:15px;
+}
+
+.weather-box{
+    font-size:1.2rem;
+}
+
+.news-item{
+    background:#f4ffe9;
+    padding:12px;
+    margin-bottom:10px;
+    border-radius:10px;
+}
+
+.news-item a{
+    text-decoration:none;
+    color:#2f6d24;
+    font-weight:600;
+}
+
+.news-item a:hover{
+    text-decoration:underline;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#f4ffe9;
+    padding:20px;
+    border-left:6px solid var(--green2);
+    border-radius:15px;
+}
+
+.card h3{
+    color:var(--green3);
+    margin-bottom:10px;
+}
+
+.github-btn{
+    display:inline-block;
+    background:var(--green2);
+    color:white;
+    text-decoration:none;
+    padding:12px 20px;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+.github-btn:hover{
+    opacity:.9;
+}
+
+footer{
+    text-align:center;
+    padding:25px;
+    background:#dfffc7;
+    color:#2f6d24;
+}
+
+@media(max-width:768px){
+
+    .profile-card{
+        position:static;
+        width:max-content;
+        margin:0 auto 20px;
     }
 
-    body{
-      overflow:hidden;
-      background:#dfeede;
-      color:#2f4634;
+    header h1{
+        font-size:2rem;
     }
 
-    /* 배경 */
-    .bg{
-      position:fixed;
-      width:100%;
-      height:100%;
-      background:
-      linear-gradient(rgba(232,245,232,0.75), rgba(232,245,232,0.75)),
-      url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1600&auto=format&fit=crop');
-      background-size:cover;
-      background-position:center;
-      z-index:-1;
+    .profile-card img{
+        width:65px;
+        height:65px;
     }
-
-    /* 좌측 사이드 */
-    .sidebar{
-      position:fixed;
-      width:220px;
-      height:100vh;
-      background:rgba(228,242,228,0.88);
-      backdrop-filter:blur(10px);
-      border-right:1px solid #bdd4bd;
-      padding:35px 25px;
-    }
-
-    .profile{
-      text-align:center;
-      margin-bottom:40px;
-    }
-
-    .profile img{
-      width:95px;
-      height:95px;
-      border-radius:50%;
-      object-fit:cover;
-      border:4px solid #c9dfc9;
-    }
-
-    .profile h1{
-      font-size:1.4rem;
-      margin-top:15px;
-      color:#35553b;
-    }
-
-    .profile p{
-      font-size:0.92rem;
-      margin-top:8px;
-      color:#58715d;
-    }
-
-    /* 메뉴 */
-    .menu{
-      display:flex;
-      flex-direction:column;
-      gap:15px;
-    }
-
-    .menu button{
-      border:none;
-      background:#d6e8d6;
-      padding:15px;
-      border-radius:12px;
-      cursor:pointer;
-      text-align:left;
-      font-size:1rem;
-      color:#35553b;
-      transition:0.25s;
-      font-weight:600;
-    }
-
-    .menu button:hover{
-      background:#bfd8bf;
-      transform:translateX(5px);
-    }
-
-    /* 메인 */
-    .main{
-      margin-left:220px;
-      height:100vh;
-      position:relative;
-      padding:35px;
-    }
-
-    /* 윈도우 스타일 */
-    .window{
-      position:absolute;
-      width:500px;
-      background:rgba(248,255,248,0.95);
-      border:1px solid #d4e6d4;
-      border-radius:18px;
-      overflow:hidden;
-      box-shadow:0 15px 35px rgba(0,0,0,0.12);
-      display:none;
-      animation:show 0.25s ease;
-      backdrop-filter:blur(8px);
-    }
-
-    @keyframes show{
-      from{
-        opacity:0;
-        transform:scale(0.95);
-      }
-      to{
-        opacity:1;
-        transform:scale(1);
-      }
-    }
-
-    .window-header{
-      background:#bdd8bd;
-      padding:14px 18px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      color:#2f4c35;
-      font-weight:bold;
-    }
-
-    .window-header button{
-      border:none;
-      width:28px;
-      height:28px;
-      border-radius:50%;
-      background:#6f9274;
-      color:white;
-      cursor:pointer;
-      font-weight:bold;
-    }
-
-    .window-content{
-      padding:25px;
-      max-height:520px;
-      overflow-y:auto;
-    }
-
-    .window-content h2{
-      margin-bottom:15px;
-      color:#4d7155;
-    }
-
-    .window-content p{
-      margin-bottom:10px;
-      line-height:1.7;
-    }
-
-    /* 카드 */
-    .card{
-      background:#edf7ed;
-      padding:15px;
-      border-radius:12px;
-      margin-bottom:14px;
-      transition:0.2s;
-    }
-
-    .card:hover{
-      background:#dff0df;
-    }
-
-    .card a{
-      text-decoration:none;
-      color:#35553b;
-      font-weight:600;
-    }
-
-    /* 날씨 */
-    .weather{
-      text-align:center;
-    }
-
-    .weather img{
-      width:120px;
-      margin:15px 0;
-    }
-
-    /* 통계 */
-    .stats{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:15px;
-      margin-top:20px;
-    }
-
-    .stat{
-      background:#edf7ed;
-      border-radius:14px;
-      padding:20px;
-      text-align:center;
-    }
-
-    .stat h3{
-      font-size:1.8rem;
-      color:#6e9775;
-      margin-bottom:10px;
-    }
-
-    /* github 버튼 */
-    .github{
-      display:inline-block;
-      margin-top:20px;
-      text-decoration:none;
-      background:#6f9274;
-      color:white;
-      padding:12px 18px;
-      border-radius:10px;
-      transition:0.2s;
-    }
-
-    .github:hover{
-      background:#58735d;
-    }
-
-    /* 모바일 */
-    @media(max-width:900px){
-
-      body{
-        overflow:auto;
-      }
-
-      .sidebar{
-        width:100%;
-        height:auto;
-        position:relative;
-      }
-
-      .main{
-        margin-left:0;
-        height:auto;
-        min-height:100vh;
-      }
-
-      .window{
-        position:relative;
-        width:100%;
-        margin-bottom:20px;
-        display:block !important;
-        top:auto !important;
-        left:auto !important;
-      }
-
-    }
-
-  </style>
+}
+</style>
 </head>
 
 <body>
 
-<div class="bg"></div>
+<header>
 
-<!-- 사이드바 -->
-<div class="sidebar">
+<div class="profile-card">
+    <img src="profile.png" alt="우채연 프로필">
 
-  <div class="profile">
-
-    <img src="https://cdn-icons-png.flaticon.com/512/6997/6997662.png">
-
-    <h1>채연's web page</h1>
-
-    <p>
-      부산 · 부경대 · 사회복지
-    </p>
-
-  </div>
-
-  <div class="menu">
-
-    <button onclick="openWindow('weather')">
-      ☁ 오늘의 날씨
-    </button>
-
-    <button onclick="openWindow('busan')">
-      📰 부산의 이슈
-    </button>
-
-    <button onclick="openWindow('pknu')">
-      🎓 부경대 뉴스
-    </button>
-
-    <button onclick="openWindow('welfare')">
-      📊 사회복지 통계
-    </button>
-
-  </div>
-
+    <div class="profile-info">
+        <h3>우채연</h3>
+        <p>부경대학교 사회복지학과</p>
+    </div>
 </div>
 
-<!-- 메인 -->
-<div class="main">
+<h1>채연's Web Page</h1>
+<p>부산 · 부경대학교 · 사회복지 정보</p>
 
-  <!-- 날씨 -->
-  <div class="window" id="weather" style="top:30px; left:40px; display:block;">
+</header>
 
-    <div class="window-header">
-      ☁ 오늘의 날씨
-      <button onclick="closeWindow('weather')">×</button>
+<div class="container">
+
+<section class="section">
+    <h2>🌤 부산 날씨</h2>
+    <div id="weather" class="weather-box">
+        날씨 정보를 불러오는 중...
     </div>
+</section>
 
-    <div class="window-content">
+<section class="section">
+    <h2>📰 부산의 이슈</h2>
 
-      <div class="weather">
-
-        <h2>부산광역시</h2>
-
-        <img src="https://cdn-icons-png.flaticon.com/512/414/414927.png">
-
-        <p><strong>기온:</strong> 23°C</p>
-        <p><strong>날씨:</strong> 흐리고 선선함</p>
-        <p><strong>미세먼지:</strong> 보통</p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- 부산 이슈 -->
-  <div class="window" id="busan" style="top:90px; left:420px; display:block;">
-
-    <div class="window-header">
-      📰 부산의 이슈
-      <button onclick="closeWindow('busan')">×</button>
-    </div>
-
-    <div class="window-content">
-
-      <div class="card">
+    <div class="news-item">
         <a href="https://www.busan.com/" target="_blank">
-          부산 청년 일자리 확대 정책 추진
+            부산일보 주요 뉴스
         </a>
-      </div>
+    </div>
 
-      <div class="card">
+    <div class="news-item">
         <a href="https://www.kookje.co.kr/" target="_blank">
-          부산 관광 활성화를 위한 해양축제 준비
+            국제신문 주요 뉴스
         </a>
-      </div>
+    </div>
 
-      <div class="card">
+    <div class="news-item">
         <a href="https://www.busan.go.kr/" target="_blank">
-          친환경 녹지 확대 사업 진행
+            부산광역시 공식 홈페이지
         </a>
-      </div>
-
     </div>
+</section>
 
-  </div>
+<section class="section">
+    <h2>🎓 부경대학교 관련 뉴스</h2>
 
-  <!-- 부경대 -->
-  <div class="window" id="pknu" style="top:360px; left:120px;">
-
-    <div class="window-header">
-      🎓 부경대 뉴스
-      <button onclick="closeWindow('pknu')">×</button>
-    </div>
-
-    <div class="window-content">
-
-      <div class="card">
-        <a href="https://www.pknu.ac.kr/" target="_blank">
-          AI·데이터 중심 교육 강화 추진
+    <div class="news-item">
+        <a href="https://www.pknu.ac.kr/main" target="_blank">
+            부경대학교 홈페이지
         </a>
-      </div>
+    </div>
 
-      <div class="card">
-        <a href="https://www.pknu.ac.kr/" target="_blank">
-          지역사회 사회복지 프로그램 확대
+    <div class="news-item">
+        <a href="https://www.pknu.ac.kr/main/163" target="_blank">
+            부경대학교 소식
         </a>
-      </div>
-
-      <div class="card">
-        <a href="https://www.pknu.ac.kr/" target="_blank">
-          스마트 캠퍼스 구축 프로젝트 진행
-        </a>
-      </div>
-
     </div>
+</section>
 
-  </div>
+<section class="section">
 
-  <!-- 사회복지 -->
-  <div class="window" id="welfare" style="top:330px; left:620px;">
+<h2>📊 사회복지 관련 통계</h2>
 
-    <div class="window-header">
-      📊 사회복지 통계
-      <button onclick="closeWindow('welfare')">×</button>
-    </div>
+<div class="grid">
 
-    <div class="window-content">
+<div class="card">
+    <h3>고령화 사회</h3>
+    <p>대한민국은 초고령사회에 진입하며 노인복지 수요가 지속적으로 증가하고 있습니다.</p>
+</div>
 
-      <h2>대한민국 사회복지 주요 통계</h2>
+<div class="card">
+    <h3>1인 가구 증가</h3>
+    <p>1인 가구 증가에 따라 지역사회 돌봄과 복지서비스의 중요성이 높아지고 있습니다.</p>
+</div>
 
-      <div class="stats">
+<div class="card">
+    <h3>복지예산 확대</h3>
+    <p>국가 및 지방자치단체의 복지 예산 규모가 꾸준히 확대되고 있습니다.</p>
+</div>
 
-        <div class="stat">
-          <h3>15.7%</h3>
-          <p>노인 인구 비율</p>
-        </div>
-
-        <div class="stat">
-          <h3>220만+</h3>
-          <p>기초생활 수급자</p>
-        </div>
-
-        <div class="stat">
-          <h3>34만+</h3>
-          <p>사회복지 종사자</p>
-        </div>
-
-        <div class="stat">
-          <h3>11.2%</h3>
-          <p>복지 예산 증가율</p>
-        </div>
-
-      </div>
-
-      <a
-        class="github"
-        href="https://github.com/woochaeyeon0220-lgtm/chaeyeon-s-web-page"
-        target="_blank"
-      >
-        GitHub Repository
-      </a>
-
-    </div>
-
-  </div>
+<div class="card">
+    <h3>아동·청소년 복지</h3>
+    <p>지역사회 중심의 아동 보호와 청소년 지원 정책이 강화되고 있습니다.</p>
+</div>
 
 </div>
+
+</section>
+
+<section class="section">
+
+<h2>💻 GitHub</h2>
+
+<a
+class="github-btn"
+href="https://github.com/woochaeyeon0220-lgtm/chaeyeon-s-web-page"
+target="_blank">
+저장소 바로가기
+</a>
+
+</section>
+
+</div>
+
+<footer>
+© 2026 Chaeyeon's Web Page
+</footer>
 
 <script>
 
-  function openWindow(id){
-    document.getElementById(id).style.display = 'block';
-  }
+async function loadWeather(){
 
-  function closeWindow(id){
-    document.getElementById(id).style.display = 'none';
-  }
+    try{
+
+        const response = await fetch(
+            "https://api.open-meteo.com/v1/forecast?latitude=35.1796&longitude=129.0756&current=temperature_2m"
+        );
+
+        const data = await response.json();
+
+        document.getElementById("weather").innerHTML =
+        `현재 부산 기온 : <strong>${data.current.temperature_2m}°C</strong>`;
+
+    }catch{
+
+        document.getElementById("weather").innerHTML =
+        "날씨 정보를 가져올 수 없습니다.";
+
+    }
+
+}
+
+loadWeather();
 
 </script>
 
